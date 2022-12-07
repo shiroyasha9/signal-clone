@@ -1,4 +1,4 @@
 export const Colors = {
-  royalBlue: '#2C6BED',
+  royalBlue: '#3976F0',
   white: '#FFFFFF',
 };
