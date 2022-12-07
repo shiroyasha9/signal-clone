@@ -6,6 +6,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import StackNavigator from '@navigators/StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import { NavigatorParamList } from '@types';
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends NavigatorParamList {}
+  }
+}
 
 export default function App() {
   return (
