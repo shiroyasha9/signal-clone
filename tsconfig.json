@@ -11,7 +11,7 @@
       "@navigators/*": ["navigators/*"],
       "@screens": ["screens/index.ts"],
       "@stores/*": ["stores/*"],
-      "@themes/*": ["themes/*"],
+      "@themes": ["themes/index.ts"],
       "@types": ["types/index.ts"],
       "@utils/*": ["utils/*"]
     }
