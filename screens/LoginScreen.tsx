@@ -1,19 +1,23 @@
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { StackScreenProps } from '@react-navigation/stack';
 import { Button, Image, Input } from '@rneui/themed';
 import { Colors } from '@themes';
+import { NavigatorParamList } from '@types';
 
-export const LoginScreen = () => {
+type LoginScreenProps = StackScreenProps<NavigatorParamList, 'Login'>;
+
+export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const signInHandler = () => {
+  const loginHandler = () => {
     console.log('Sign in');
   };
 
   const registerHandler = () => {
-    console.log('Register');
+    navigation.navigate('Register');
   };
 
   return (
@@ -31,15 +35,14 @@ export const LoginScreen = () => {
         <Input
           label="Email"
           placeholder="rickroll@example.com"
-          autoFocus
           value={email}
           onChangeText={(text) => setEmail(text)}
           autoCorrect={false}
+          autoCapitalize="none"
         />
         <Input
           label="Password"
           placeholder="******"
-          autoFocus
           secureTextEntry
           value={password}
           onChangeText={(text) => setPassword(text)}
@@ -48,16 +51,18 @@ export const LoginScreen = () => {
       <Button
         title="Login"
         containerStyle={styles.button}
-        onPress={signInHandler}
+        onPress={loginHandler}
         color={Colors.royalBlue}
       />
-      <Button
-        title="Register"
-        containerStyle={styles.button}
-        type="outline"
-        onPress={registerHandler}
-        color={Colors.royalBlue}
-      />
+      <View style={styles.registerText}>
+        <Text>Not an existing user? </Text>
+        <Pressable
+          onPress={registerHandler}
+          style={({ pressed }) => pressed && { opacity: 0.5 }}
+        >
+          <Text style={{ color: Colors.royalBlue }}>Register</Text>
+        </Pressable>
+      </View>
       <View style={{ height: 120 }} />
     </KeyboardAvoidingView>
   );
@@ -78,5 +83,11 @@ const styles = StyleSheet.create({
   button: {
     width: 200,
     marginTop: 10,
+  },
+  registerText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 15,
   },
 });
