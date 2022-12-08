@@ -1,19 +1,34 @@
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useSetAtom } from 'jotai';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { Button, Image, Input } from '@rneui/themed';
+import { userAtom } from '@stores';
 import { Colors } from '@themes';
 import { NavigatorParamList } from '@types';
+
+import { auth } from '../firebase';
 
 type LoginScreenProps = StackScreenProps<NavigatorParamList, 'Login'>;
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const setUser = useSetAtom(userAtom);
 
   const loginHandler = () => {
-    console.log('Sign in');
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        setUser(user);
+        navigation.navigate('Home');
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        alert(errorMessage);
+      });
   };
 
   const registerHandler = () => {
