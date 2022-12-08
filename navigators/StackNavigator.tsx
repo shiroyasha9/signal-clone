@@ -1,11 +1,15 @@
+import { useAtomValue } from 'jotai';
+
 import { createStackNavigator } from '@react-navigation/stack';
-import { LoginScreen, RegisterScreen } from '@screens';
+import { HomeScreen, LoginScreen, RegisterScreen } from '@screens';
+import { userAtom } from '@stores';
 import { Colors } from '@themes';
 import { NavigatorParamList } from '@types';
 
 const Stack = createStackNavigator<NavigatorParamList>();
 
 const StackNavigator = () => {
+  const user = useAtomValue(userAtom);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -14,6 +18,7 @@ const StackNavigator = () => {
         headerTintColor: Colors.white,
         headerBackTitleVisible: false,
       }}
+      initialRouteName={user ? 'Home' : 'Login'}
     >
       <Stack.Screen
         name="Login"
@@ -25,6 +30,7 @@ const StackNavigator = () => {
         component={RegisterScreen}
         options={{ title: 'Get Started' }}
       />
+      <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
 };
