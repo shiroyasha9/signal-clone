@@ -1,3 +1,4 @@
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 
@@ -5,6 +6,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { Button, Image, Input, Text } from '@rneui/themed';
 import { Colors } from '@themes';
 import { NavigatorParamList } from '@types';
+
+import { auth } from '../firebase';
 
 type LoginScreenProps = StackScreenProps<NavigatorParamList, 'Register'>;
 
@@ -20,6 +23,25 @@ export const RegisterScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const registerHandler = () => {
     console.log('Sign up');
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        updateProfile(user, {
+          displayName: name,
+          photoURL:
+            imageUrl ||
+            `https://ui-avatars.com/api/?background=3976F0&name=${name
+              .split(' ')
+              .join('+')}`,
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        alert(errorMessage);
+      });
   };
 
   return (
