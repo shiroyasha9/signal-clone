@@ -23,7 +23,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       .then((userCredential) => {
         const user = userCredential.user;
         setUser(user);
-        navigation.navigate('Home');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        });
       })
       .catch((error) => {
         const errorMessage = error.message;

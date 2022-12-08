@@ -18,7 +18,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const logoutHandler = () => {
     signOut(auth).then(() => {
       setUser(null);
-      navigation.navigate('Login');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
     });
   };
 

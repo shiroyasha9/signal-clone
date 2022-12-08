@@ -40,7 +40,10 @@ export const RegisterScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         })
           .then(() => {
             setUser(auth.currentUser);
-            navigation.navigate('Home');
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home' }],
+            });
           })
           .catch((error) => {
             alert(error.message);
