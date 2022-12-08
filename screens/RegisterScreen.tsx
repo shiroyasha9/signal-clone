@@ -1,9 +1,11 @@
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useSetAtom } from 'jotai';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { Button, Image, Input, Text } from '@rneui/themed';
+import { userAtom } from '@stores';
 import { Colors } from '@themes';
 import { NavigatorParamList } from '@types';
 
@@ -16,6 +18,7 @@ export const RegisterScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const setUser = useSetAtom(userAtom);
 
   const loginHandler = () => {
     navigation.navigate('Login');
@@ -34,13 +37,16 @@ export const RegisterScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             `https://ui-avatars.com/api/?background=3976F0&name=${name
               .split(' ')
               .join('+')}`,
-        });
+        })
+          .then(() => {
+            setUser(auth.currentUser);
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        alert(errorMessage);
+        alert(error.message);
       });
   };
 
