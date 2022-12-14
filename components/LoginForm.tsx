@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 import { Button, Input } from '@rneui/base';
 import { Colors } from '@themes';
+import { FormLabel } from './FormLabel';
 
 type LoginFormValues = {
   email: string;
@@ -54,13 +55,14 @@ const LoginInnerForm = (props: FormikProps<LoginFormValues>) => {
   return (
     <View style={styles.inputContainer}>
       <Input
-        label="Email"
+        label={<FormLabel labelText="Email" iconName="email" />}
         placeholder="rickroll@example.com"
         onChangeText={handleChange('email')}
         onBlur={handleBlur('email')}
         value={values.email}
         autoCorrect={false}
         autoCapitalize="none"
+        keyboardType="email-address"
         errorMessage={
           errors.email && touched.email
             ? 'Please enter a valid email address.'
@@ -68,7 +70,7 @@ const LoginInnerForm = (props: FormikProps<LoginFormValues>) => {
         }
       />
       <Input
-        label="Password"
+        label={<FormLabel labelText="Password" iconName="lock" />}
         placeholder="******"
         onChangeText={handleChange('password')}
         onBlur={handleBlur('password')}
